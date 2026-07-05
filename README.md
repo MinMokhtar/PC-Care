@@ -2,7 +2,7 @@
 
 **An all-in-one PC maintenance companion — Flutter mobile app + Windows companion.**
 
-Final Year Project by Mokhtar Amin Ahlan · 2026
+Final Year Project by Amin Mokhtar · 2026
 
 ---
 
@@ -78,5 +78,5 @@ This project is a Final Year Project for academic use. Feel free to explore the 
 
 ---
 
-**Developed by Mokhtar Amin Ahlan**
+**Developed by Amin Mokhtar**
 Final Year Project · 2026
