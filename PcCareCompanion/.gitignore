@@ -1,0 +1,22 @@
+# .NET build outputs
+bin/
+obj/
+publish-folder/
+publish/
+
+# Visual Studio / VS Code
+.vs/
+*.user
+*.suo
+
+# NuGet
+*.nupkg
+packages/
+
+# Compiled binaries
+*.dll
+*.pdb
+*.exe
+
+# Local secrets
+appsettings.local.json
