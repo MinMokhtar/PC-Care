@@ -1,4 +1,6 @@
-# PC Care
+# PICARE
+
+_PC Interactive Care And Remote Environment_
 
 **An all-in-one PC maintenance companion — Flutter mobile app + Windows companion.**
 
@@ -8,7 +10,7 @@ Final Year Project by Amin Mokhtar · 2026
 
 ## About
 
-PC Care is designed to make PC maintenance simple for casual users. The mobile app pairs with a Windows companion app to monitor temperatures, plan upgrades, guide hardware repairs via AR, and clean up storage — all from your phone.
+PICARE is designed to make PC maintenance simple for casual users. The mobile app pairs with a Windows companion app to monitor temperatures, plan upgrades, guide hardware repairs via AR, and clean up storage — all from your phone.
 
 ## Features
 
@@ -34,8 +36,8 @@ Grab the latest release from the [Releases page](../../releases):
 
 | File | For | Required for |
 |------|-----|--------------|
-| `PCCare-vX.X.apk` | Android phone | Everything |
-| `PcCareCompanion-vX.X.zip` | Windows PC | Connect Mode (real PC data) |
+| `PICARE-vX.X.apk` | Android phone | Everything |
+| `PICARE-Companion-vX.X.zip` | Windows PC | Connect Mode (real PC data) |
 
 If you just want to try it, install only the APK and use **Demo Mode**.
 
