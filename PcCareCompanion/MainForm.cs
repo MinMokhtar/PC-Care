@@ -41,7 +41,7 @@ public class MainForm : Form
     public MainForm()
     {
         // Window setup
-        Text = "PC Care Companion";
+        Text = "PICARE Companion";
         Size = new Size(900, 700);
         MinimumSize = new Size(760, 560);
         BackColor = BgColor;
@@ -730,7 +730,7 @@ public class MainForm : Form
         };
         var sub = new Label
         {
-            Text = "Launch PC Care Companion automatically when you log in to Windows.",
+            Text = "Launch PICARE Companion automatically when you log in to Windows.",
             ForeColor = TextMuted,
             BackColor = CardBg,
             Font = new Font("Segoe UI", 9F),
@@ -777,7 +777,7 @@ public class MainForm : Form
             {
                 UpdateAutoStartButton();
                 MessageBox.Show(
-                    "Auto-start enabled. PC Care Companion will launch with admin\n" +
+                    "Auto-start enabled. PICARE Companion will launch with admin\n" +
                     "privileges when you log into Windows.",
                     "Auto-start enabled",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -798,9 +798,9 @@ public class MainForm : Form
         card.Height = 240;
         var info = new Label
         {
-            Text = "  PC Care Companion\n" +
+            Text = "  PICARE Companion\n" +
                    "  Version 1.0\n\n" +
-                   "  Companion app for the PC Care mobile project.\n" +
+                   "  Companion app for the PICARE mobile project.\n" +
                    "  Exposes hardware sensors and power controls over\n" +
                    "  the local network via authenticated HTTP.\n\n" +
                    "  Built for FYP.",
@@ -860,7 +860,7 @@ public class MainForm : Form
         _tray = new NotifyIcon
         {
             Icon = SystemIcons.Application,
-            Text = "PC Care Companion",
+            Text = "PICARE Companion",
             Visible = true,
         };
         var menu = new ContextMenuStrip();
@@ -891,7 +891,7 @@ public class MainForm : Form
         {
             e.Cancel = true;
             Hide();
-            _tray.ShowBalloonTip(2000, "PC Care Companion",
+            _tray.ShowBalloonTip(2000, "PICARE Companion",
                 "Still running in the tray. Right-click the icon to quit.",
                 ToolTipIcon.Info);
             return;

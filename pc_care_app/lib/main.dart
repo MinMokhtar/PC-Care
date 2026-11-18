@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'config/companion_config.dart';
+import 'screens/onboarding_screen.dart';
 import 'screens/splash_screen.dart';
+import 'screens/terms_screen.dart';
 import 'services/notifications_service.dart';
+import 'services/onboarding_prefs_service.dart';
 import 'services/reminders_service.dart';
 import 'services/settings_prefs_service.dart';
 
@@ -18,16 +21,32 @@ Future<void> main() async {
   } else {
     await NotificationsService.instance.cancelAll();
   }
-  runApp(const PcCareApp());
+
+  // First-launch gating: pick the entry screen based on stored flags.
+  final onboardingPrefs = OnboardingPrefsService();
+  final onboardingDone = await onboardingPrefs.isOnboardingDone();
+  final termsAgreed = await onboardingPrefs.isTermsAgreed();
+
+  final Widget entry;
+  if (!onboardingDone) {
+    entry = const OnboardingScreen();
+  } else if (!termsAgreed) {
+    entry = const TermsScreen();
+  } else {
+    entry = const SplashScreen();
+  }
+
+  runApp(PcCareApp(entry: entry));
 }
 
 class PcCareApp extends StatelessWidget {
-  const PcCareApp({super.key});
+  final Widget entry;
+  const PcCareApp({super.key, required this.entry});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PC Care',
+      title: 'PICARE',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -36,7 +55,7 @@ class PcCareApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: entry,
     );
   }
 }

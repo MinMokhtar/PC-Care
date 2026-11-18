@@ -70,7 +70,7 @@ class CompanionIdentity {
   factory CompanionIdentity.fromJson(Map<String, dynamic> json) =>
       CompanionIdentity(
         hostname: json['hostname'] as String? ?? 'Unknown',
-        app: json['app'] as String? ?? 'PC Care Companion',
+        app: json['app'] as String? ?? 'PICARE Companion',
         mac: json['mac'] as String? ?? '',
       );
 }

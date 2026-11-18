@@ -145,7 +145,7 @@ class _CameraScreenState extends State<CameraScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text('PC Care — Detection'),
+        title: const Text('PICARE — Detection'),
         backgroundColor: Colors.black87,
         foregroundColor: Colors.white,
       ),

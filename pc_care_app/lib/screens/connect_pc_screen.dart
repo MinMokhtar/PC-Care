@@ -86,7 +86,7 @@ class _ConnectPcScreenState extends State<ConnectPcScreen>
               const SizedBox(height: 24),
               Image.asset(
                 'assets/icon/pc_care_masthead.png',
-                height: 110,
+                height: 25,
                 fit: BoxFit.contain,
               ),
               const Spacer(flex: 2),

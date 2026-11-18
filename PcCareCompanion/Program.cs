@@ -49,10 +49,54 @@ AppState.Hostname = Environment.MachineName;
 AppState.LocalIp = GetLocalIp();
 AppState.MacAddress = GetMacAddress();
 
+// Picks the real network card (Ethernet first, then Wi-Fi), skipping VPN /
+// virtual adapters such as Cloudflare WARP — those have no usable MAC, which
+// would break Wake-on-LAN on the phone.
+static NetworkInterface? GetPhysicalNic()
+{
+    string[] virtualHints =
+    {
+        "warp", "cloudflare", "wintun", "wireguard", "vpn", "virtual",
+        "hyper-v", "vmware", "virtualbox", "tap-", "tunnel", "loopback",
+    };
+
+    bool LooksVirtual(NetworkInterface n)
+    {
+        var text = (n.Name + " " + n.Description).ToLowerInvariant();
+        return virtualHints.Any(h => text.Contains(h));
+    }
+
+    try
+    {
+        return NetworkInterface.GetAllNetworkInterfaces()
+            .Where(n => n.OperationalStatus == OperationalStatus.Up)
+            .Where(n => n.NetworkInterfaceType is NetworkInterfaceType.Ethernet
+                     or NetworkInterfaceType.GigabitEthernet
+                     or NetworkInterfaceType.FastEthernetT
+                     or NetworkInterfaceType.FastEthernetFx
+                     or NetworkInterfaceType.Wireless80211)
+            .Where(n => n.GetPhysicalAddress().GetAddressBytes().Length == 6)
+            .Where(n => !LooksVirtual(n))
+            // Prefer wired (needed for WoL), then adapters with a gateway.
+            .OrderBy(n => n.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ? 1 : 0)
+            .ThenBy(n => n.GetIPProperties().GatewayAddresses.Any() ? 0 : 1)
+            .FirstOrDefault();
+    }
+    catch { return null; }
+}
+
 static string GetLocalIp()
 {
     try
     {
+        // Use the real NIC's IPv4 first, so a VPN address (e.g. WARP's
+        // 172.16.0.x) never shows up in the banner.
+        var nic = GetPhysicalNic();
+        var nicIp = nic?.GetIPProperties().UnicastAddresses
+            .FirstOrDefault(a => a.Address.AddressFamily == AddressFamily.InterNetwork)
+            ?.Address;
+        if (nicIp != null) return nicIp.ToString();
+
         var host = Dns.GetHostEntry(Dns.GetHostName());
         foreach (var addr in host.AddressList)
         {
@@ -71,11 +115,7 @@ static string GetMacAddress()
 {
     try
     {
-        var nic = NetworkInterface.GetAllNetworkInterfaces()
-            .FirstOrDefault(n =>
-                n.OperationalStatus == OperationalStatus.Up &&
-                n.NetworkInterfaceType != NetworkInterfaceType.Loopback &&
-                n.NetworkInterfaceType != NetworkInterfaceType.Tunnel);
+        var nic = GetPhysicalNic();
         if (nic == null) return "";
         var bytes = nic.GetPhysicalAddress().GetAddressBytes();
         return string.Join(":", bytes.Select(b => b.ToString("X2")));
@@ -127,7 +167,7 @@ app.Use(async (context, next) =>
 // Health check + identify — used for online detection AND subnet scan.
 app.MapGet("/", () => Results.Ok(new
 {
-    app = "PC Care Companion",
+    app = "PICARE Companion",
     hostname = AppState.Hostname,
     mac = AppState.MacAddress,
     version = "1.0",

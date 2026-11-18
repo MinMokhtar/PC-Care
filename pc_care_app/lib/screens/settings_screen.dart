@@ -7,6 +7,7 @@ import '../services/notifications_service.dart';
 import '../services/reminders_service.dart';
 import '../services/settings_prefs_service.dart';
 import '../widgets/app_bottom_nav.dart';
+import 'about_screen.dart';
 import 'connect_pc_screen.dart';
 import 'main_shell.dart';
 import 'notification_reminder_screen.dart';
@@ -111,25 +112,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showAbout() {
-    showDialog<void>(
-      context: context,
-      builder: (_) => AlertDialog(
-        backgroundColor: SettingsScreen.cardBg,
-        title: const Text('About PC Care',
-            style: TextStyle(color: Colors.white)),
-        content: const Text(
-          'PC Care v1.0.0\n\nYour all-in-one PC maintenance companion.\n\nDeveloped as a Final Year Project.',
-          style: TextStyle(color: Colors.white70),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close',
-                style: TextStyle(color: SettingsScreen.accentBlue)),
-          ),
-        ],
-      ),
+  void _openAbout() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const AboutScreen()),
     );
   }
 
@@ -224,7 +209,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     iconBg: const Color(0xFF1E2E4F),
                     title: 'About App',
                     subtitle: 'Version 1.0.0',
-                    onTap: _showAbout,
+                    onTap: _openAbout,
                   ),
                 ],
               ),
